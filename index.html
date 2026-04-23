@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Modern Pro</title>
+    <style>
+        /* Dasar Halaman */
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Animasi Muncul Saat Masuk */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .calculator {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            animation: fadeIn 0.8s ease-out; /* Ini yang buat tampilan muncul otomatis */
+        }
+
+        /* Layar Angka */
+        #display {
+            width: 100%;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 2.5rem;
+            text-align: right;
+            padding: 15px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        /* Tata Letak Tombol */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            height: 70px;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Warna Khusus */
+        .operator { background: #f39c12; }
+        .operator:hover { background: #e67e22; }
+        .clear { background: #e74c3c; grid-column: span 2; }
+        .equal { background: #2ecc71; grid-column: span 2; }
+
+        /* Label di bawah */
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" placeholder="0" disabled>
+    
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">AC</button>
+        <button class="operator" onclick="deleteLast()">DEL</button>
+        <button class="operator" onclick="appendToDisplay('/')">÷</button>
+        
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button class="operator" onclick="appendToDisplay('*')">×</button>
+        
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button class="operator" onclick="appendToDisplay('-')">-</button>
+        
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button class="operator" onclick="appendToDisplay('+')">+</button>
+        
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+    <div class="footer">Kalkulator Digital GitHub</div>
+</div>
+
+<script>
+    let display = document.getElementById('display');
+
+    function appendToDisplay(val) {
+        if (display.value === "Error") display.value = "";
+        display.value += val;
+    }
+
+    function clearDisplay() {
+        display.value = "";
+    }
+
+    function deleteLast() {
+        display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+        try {
+            // Menggunakan Function() lebih aman daripada eval()
+            display.value = new Function('return ' + display.value)();
+        } catch (e) {
+            display.value = "Error";
+        }
+    }
+</script>
+
+</body>
+</html>
